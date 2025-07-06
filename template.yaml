@@ -25,7 +25,7 @@ Resources:
         AddDefaultAuthorizerToCorsPreflight: false
         Authorizers:
           CognitoAuthorizer:
-            UserPoolArn: arn:aws:cognito-idp:us-east-1:445527451039:userpool/us-east-1_mQRMo6ZSx
+            UserPoolArn: arn:aws:cognito-idp:us-east-1:445527451039:userpool/us-east-1_PWroqiHbf
 
   GetTasksFunction:
     Type: AWS::Serverless::Function
