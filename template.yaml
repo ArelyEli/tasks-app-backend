@@ -4,17 +4,29 @@ Description: tasks-app-backend
 
 Globals:
   Function:
-    Timeout: 3
+    Timeout: 120
+    Runtime: python3.13
+    Architectures:
+      - x86_64
 
 Resources:
+  TasksApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name: TasksApi
+      StageName: Prod
+      Auth:
+        DefaultAuthorizer: CognitoAuthorizer
+        AddDefaultAuthorizerToCorsPreflight: false
+        Authorizers:
+          CognitoAuthorizer:
+            UserPoolArn: arn:aws:cognito-idp:us-east-1:445527451039:userpool/us-east-1_mQRMo6ZSx
+
   GetTasksFunction:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: functions/get_tasks/
       Handler: app.lambda_handler
-      Runtime: python3.13
-      Architectures:
-        - x86_64
       VpcConfig:
         SecurityGroupIds:
           - sg-0ba386509d49f41f9
@@ -27,12 +39,38 @@ Resources:
           Properties:
             Path: /tasks
             Method: get
+            RestApiId: !Ref TasksApi
+            Auth:
+              Authorizer: CognitoAuthorizer
+
+  CreateTaskFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: functions/create_task/
+      Handler: app.lambda_handler
+      VpcConfig:
+        SecurityGroupIds:
+          - sg-0ba386509d49f41f9
+        SubnetIds:
+          - subnet-0523d0efcd24f849f
+          - subnet-06c6c79d959f4a1f1
+      Events:
+        CreateTask:
+          Type: Api
+          Properties:
+            Path: /tasks
+            Method: post
+            RestApiId: !Ref TasksApi
+            Auth:
+              Authorizer: CognitoAuthorizer
 
 Outputs:
   GetTasksApi:
-    Description: "GET /tasks endpoint"
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/tasks/"
-
+    Description: "Base API URL"
+    Value: !Sub "https://${TasksApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/tasks/"
   GetTasksFunction:
-    Description: "Get Tasks Lambda Function ARN"
+    Description: "Lambda ARN for GET"
     Value: !GetAtt GetTasksFunction.Arn
+  CreateTaskFunction:
+    Description: "Lambda ARN for POST"
+    Value: !GetAtt CreateTaskFunction.Arn
