@@ -30,7 +30,9 @@ def lambda_handler(event, context):
     return {
         "statusCode": 200,
         "headers": {
-            "Content-Type": "application/json"
+            "Access-Control-Allow-Headers": "application/json,Content-Type,Authorization",
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET,POST,PUT,DELETE,OPTIONS"
         },
         "body": json.dumps(tasks)
     }
