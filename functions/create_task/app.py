@@ -34,7 +34,7 @@ def lambda_handler(event, context):
                 user_id,
                 task_data.title,
                 task_data.description,
-                False
+                task_data.completed
             ))
         conn.commit()
         conn.close()
