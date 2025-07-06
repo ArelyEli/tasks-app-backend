@@ -64,6 +64,30 @@ Crea una nueva tarea.
 }
 
 ```
+## PUT /tasks/<id>
+Actualiza una tarea existente.
+
+#### Parámetros esperados
+```json
+{
+  "title": "Comprar leche",
+  "description": "Acuérdate",
+  "completed": true
+}
+
+```
+
+#### Respuesta esperada:
+```json
+{
+  "id": "75fc025a-702a-4d1f-ac22-d2821b6521b1",
+  "title": "Comprar leche",
+  "description": "Acuérdate",
+  "completed": true,
+  "created_at": "2025-07-06T18:15:34Z"
+}
+```
+
 
 ---
 ## Estructura de datos
