@@ -5,6 +5,7 @@ Description: tasks-app-backend
 Globals:
   Function:
     Timeout: 120
+    MemorySize: 256
     Runtime: python3.13
     Architectures:
       - x86_64
@@ -54,6 +55,13 @@ Resources:
         SubnetIds:
           - subnet-0523d0efcd24f849f
           - subnet-06c6c79d959f4a1f1
+      Policies:
+        - Version: "2012-10-17"
+          Statement:
+            - Effect: Allow
+              Action:
+                - secretsmanager:GetSecretValue
+              Resource: arn:aws:secretsmanager:us-east-1:445527451039:secret:tasks-app-database-secrets*
       Events:
         CreateTask:
           Type: Api
