@@ -34,6 +34,13 @@ Resources:
         SubnetIds:
           - subnet-0523d0efcd24f849f
           - subnet-06c6c79d959f4a1f1
+      Policies:
+        - Version: "2012-10-17"
+          Statement:
+            - Effect: Allow
+              Action:
+                - secretsmanager:GetSecretValue
+              Resource: arn:aws:secretsmanager:us-east-1:445527451039:secret:tasks-app-database-secrets*
       Events:
         GetTasks:
           Type: Api
@@ -72,6 +79,34 @@ Resources:
             Auth:
               Authorizer: CognitoAuthorizer
 
+  UpdateTaskFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: functions/update_task/
+      Handler: app.lambda_handler
+      VpcConfig:
+        SecurityGroupIds:
+          - sg-0ba386509d49f41f9
+        SubnetIds:
+          - subnet-0523d0efcd24f849f
+          - subnet-06c6c79d959f4a1f1
+      Policies:
+        - Version: "2012-10-17"
+          Statement:
+            - Effect: Allow
+              Action:
+                - secretsmanager:GetSecretValue
+              Resource: arn:aws:secretsmanager:us-east-1:445527451039:secret:tasks-app-database-secrets*
+      Events:
+        UpdateTask:
+          Type: Api
+          Properties:
+            Path: /tasks/{id}
+            Method: put
+            RestApiId: !Ref TasksApi
+            Auth:
+              Authorizer: CognitoAuthorizer
+
 Outputs:
   GetTasksApi:
     Description: "Base API URL"
@@ -82,3 +117,6 @@ Outputs:
   CreateTaskFunction:
     Description: "Lambda ARN for POST"
     Value: !GetAtt CreateTaskFunction.Arn
+  UpdateTaskFunction:
+    Description: "Lambda ARN for PUT"
+    Value: !GetAtt UpdateTaskFunction.Arn
