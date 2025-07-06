@@ -4,8 +4,8 @@ Description: tasks-app-backend
 
 Globals:
   Function:
-    Timeout: 120
-    MemorySize: 256
+    Timeout: 30
+    MemorySize: 512
     Runtime: python3.13
     Architectures:
       - x86_64
@@ -46,6 +46,34 @@ Resources:
           Type: Api
           Properties:
             Path: /tasks
+            Method: get
+            RestApiId: !Ref TasksApi
+            Auth:
+              Authorizer: CognitoAuthorizer
+
+  GetTaskFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: functions/get_task/
+      Handler: app.lambda_handler
+      VpcConfig:
+        SecurityGroupIds:
+          - sg-0ba386509d49f41f9
+        SubnetIds:
+          - subnet-0523d0efcd24f849f
+          - subnet-06c6c79d959f4a1f1
+      Policies:
+        - Version: "2012-10-17"
+          Statement:
+            - Effect: Allow
+              Action:
+                - secretsmanager:GetSecretValue
+              Resource: arn:aws:secretsmanager:us-east-1:445527451039:secret:tasks-app-database-secrets*
+      Events:
+        GetTask:
+          Type: Api
+          Properties:
+            Path: /tasks/{id}
             Method: get
             RestApiId: !Ref TasksApi
             Auth:
@@ -107,6 +135,34 @@ Resources:
             Auth:
               Authorizer: CognitoAuthorizer
 
+  DeleteTaskFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: functions/delete_task/
+      Handler: app.lambda_handler
+      VpcConfig:
+        SecurityGroupIds:
+          - sg-0ba386509d49f41f9
+        SubnetIds:
+          - subnet-0523d0efcd24f849f
+          - subnet-06c6c79d959f4a1f1
+      Policies:
+        - Version: "2012-10-17"
+          Statement:
+            - Effect: Allow
+              Action:
+                - secretsmanager:GetSecretValue
+              Resource: arn:aws:secretsmanager:us-east-1:445527451039:secret:tasks-app-database-secrets*
+      Events:
+        DeleteTask:
+          Type: Api
+          Properties:
+            Path: /tasks/{id}
+            Method: delete
+            RestApiId: !Ref TasksApi
+            Auth:
+              Authorizer: CognitoAuthorizer
+
 Outputs:
   GetTasksApi:
     Description: "Base API URL"
@@ -120,3 +176,6 @@ Outputs:
   UpdateTaskFunction:
     Description: "Lambda ARN for PUT"
     Value: !GetAtt UpdateTaskFunction.Arn
+  DeleteTaskFunction:
+    Description: "Lambda ARN for DELETE"
+    Value: !GetAtt DeleteTaskFunction.Arn
