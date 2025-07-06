@@ -16,6 +16,10 @@ Resources:
     Properties:
       Name: TasksApi
       StageName: Prod
+      Cors:
+        AllowOrigin: "'*'"
+        AllowHeaders: "'Content-Type,Authorization'"
+        AllowMethods: "'GET,POST,PUT,DELETE,OPTIONS'"
       Auth:
         DefaultAuthorizer: CognitoAuthorizer
         AddDefaultAuthorizerToCorsPreflight: false
@@ -38,8 +42,7 @@ Resources:
         - Version: "2012-10-17"
           Statement:
             - Effect: Allow
-              Action:
-                - secretsmanager:GetSecretValue
+              Action: secretsmanager:GetSecretValue
               Resource: arn:aws:secretsmanager:us-east-1:445527451039:secret:tasks-app-database-secrets*
       Events:
         GetTasks:
@@ -66,8 +69,7 @@ Resources:
         - Version: "2012-10-17"
           Statement:
             - Effect: Allow
-              Action:
-                - secretsmanager:GetSecretValue
+              Action: secretsmanager:GetSecretValue
               Resource: arn:aws:secretsmanager:us-east-1:445527451039:secret:tasks-app-database-secrets*
       Events:
         GetTask:
@@ -94,8 +96,7 @@ Resources:
         - Version: "2012-10-17"
           Statement:
             - Effect: Allow
-              Action:
-                - secretsmanager:GetSecretValue
+              Action: secretsmanager:GetSecretValue
               Resource: arn:aws:secretsmanager:us-east-1:445527451039:secret:tasks-app-database-secrets*
       Events:
         CreateTask:
@@ -122,8 +123,7 @@ Resources:
         - Version: "2012-10-17"
           Statement:
             - Effect: Allow
-              Action:
-                - secretsmanager:GetSecretValue
+              Action: secretsmanager:GetSecretValue
               Resource: arn:aws:secretsmanager:us-east-1:445527451039:secret:tasks-app-database-secrets*
       Events:
         UpdateTask:
@@ -150,8 +150,7 @@ Resources:
         - Version: "2012-10-17"
           Statement:
             - Effect: Allow
-              Action:
-                - secretsmanager:GetSecretValue
+              Action: secretsmanager:GetSecretValue
               Resource: arn:aws:secretsmanager:us-east-1:445527451039:secret:tasks-app-database-secrets*
       Events:
         DeleteTask:
