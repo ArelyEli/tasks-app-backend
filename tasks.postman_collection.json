@@ -1,0 +1,159 @@
+{
+	"info": {
+		"_postman_id": "7f0fabb7-0816-440f-800b-6dec4f97422b",
+		"name": "tasks",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17650976"
+	},
+	"item": [
+		{
+			"name": "Get all tasks by user",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{jwt}}"
+					}
+				],
+				"url": {
+					"raw": "{{path}}/tasks/",
+					"host": [
+						"{{path}}"
+					],
+					"path": [
+						"tasks",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create new task",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{jwt}}"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"title\": \"Crear el Frontend\",\n  \"description\": \"Crear el frontend de la aplicación en Angular\",\n  \"completed\": false\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{path}}/tasks/",
+					"host": [
+						"{{path}}"
+					],
+					"path": [
+						"tasks",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update task",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{jwt}}"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"title\": \"Comprar leche\",\n  \"description\": \"Acuérdate\",\n  \"completed\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{path}}/tasks/75fc025a-702a-4d1f-ac22-d2821b6521b1",
+					"host": [
+						"{{path}}"
+					],
+					"path": [
+						"tasks",
+						"75fc025a-702a-4d1f-ac22-d2821b6521b1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete task",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{jwt}}"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{path}}/tasks/75fc025a-702a-4d1f-ac22-d2821b6521b1",
+					"host": [
+						"{{path}}"
+					],
+					"path": [
+						"tasks",
+						"75fc025a-702a-4d1f-ac22-d2821b6521b1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get task",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{jwt}}"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{path}}/tasks/75fc025a-702a-4d1f-ac22-d2821b6521b1",
+					"host": [
+						"{{path}}"
+					],
+					"path": [
+						"tasks",
+						"75fc025a-702a-4d1f-ac22-d2821b6521b1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
