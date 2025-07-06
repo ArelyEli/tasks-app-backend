@@ -1,11 +1,31 @@
 import json
+from shared.db import get_connection
+from shared.models import Task
 
 def lambda_handler(event, context):
+    try:
+        user_id = event["requestContext"]["authorizer"]["claims"]["sub"]
+    except Exception:
+        return {
+            "statusCode": 401,
+            "body": json.dumps({"message": "Unauthorized"})
+        }
 
-    tasks = [
-        {"id": 1, "title": "Tarea 1", "completed": False},
-        {"id": 2, "title": "Tarea 2", "completed": True}
-    ]
+    try:
+        conn = get_connection()
+        with conn.cursor() as cursor:
+            cursor.execute("""
+                SELECT id, title, description, completed, created_at
+                FROM tasks
+                WHERE user_id = %s
+            """, (user_id,))
+            tasks = [Task(**row).model_dump(mode="json") for row in cursor.fetchall()]
+        conn.close()
+    except Exception as e:
+        return {
+            "statusCode": 500,
+            "body": json.dumps({"message": "Error fetching tasks", "error": str(e)})
+        }
 
     return {
         "statusCode": 200,

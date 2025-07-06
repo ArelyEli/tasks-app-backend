@@ -1,5 +1,4 @@
 import boto3
-import os
 import json
 import pymysql
 
@@ -10,8 +9,8 @@ def get_db_credentials():
     if _cached_secret:
         return _cached_secret
 
-    secret_name = os.environ["DB_SECRET_NAME"]
-    region_name = os.environ.get("AWS_REGION", "us-east-1")
+    secret_name = "tasks-app-database-secrets"
+    region_name = "us-east-1"
 
     client = boto3.client("secretsmanager", region_name=region_name)
     response = client.get_secret_value(SecretId=secret_name)
