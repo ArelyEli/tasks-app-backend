@@ -2,6 +2,9 @@
 
 Este repositorio expone una API RESTful construida en Python para gestionar tareas: crear, consultar, actualizar y eliminar. Está diseñada para ejecutarse como funciones Lambda, expuesta usando AWS API Gateway y es protegida con autenticación JWT usando AWS Cognito.
 
+## Update
+Debido a que este proyecto es un proyecto de prueba, se han eliminado los diferentes recursos de AWS para que no se generen costos innecesarios.
+
 ---
 
 ##  Endpoints disponibles
